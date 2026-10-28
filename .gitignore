@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Your personal data - keep it out of Git
+tracker.db
+
+# Editors / OS
+.vscode/
+.DS_Store

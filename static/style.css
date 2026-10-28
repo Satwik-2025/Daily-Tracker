@@ -1,0 +1,323 @@
+/* ----------------------------------------------------------- base colours --- */
+:root {
+  --bg-1: #1b1440;
+  --bg-2: #0d2a4a;
+  --text: #f3f1ff;
+  --muted: rgba(243, 241, 255, 0.65);
+  --glass: rgba(255, 255, 255, 0.10);
+  --glass-strong: rgba(255, 255, 255, 0.20);
+  --glass-border: rgba(255, 255, 255, 0.28);
+  --done: #34d399;
+  --missed: #f87171;
+  --accent: #a78bfa;
+  --weekly: #60a5fa;
+  --once: #f59e0b;
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--bg-2); }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  color: var(--text);
+  background: transparent;
+  overflow-x: hidden;
+}
+
+/* The gradient sits on a fixed layer so it always fills the screen while scrolling. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
+}
+
+/* Soft coloured shapes behind the glass so the blur has something to show. */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.55;
+  z-index: -1;
+}
+.blob-1 { width: 420px; height: 420px; background: #7c3aed; top: -120px; left: -100px; }
+.blob-2 { width: 360px; height: 360px; background: #0ea5e9; bottom: -100px; right: -80px; }
+.blob-3 { width: 260px; height: 260px; background: #ec4899; top: 40%; left: 55%; }
+
+h1, h2, h3 { margin: 0 0 8px; font-weight: 600; }
+h2 { font-size: 1.3rem; }
+h3 { font-size: 1.05rem; }
+.muted { color: var(--muted); font-size: 0.9rem; }
+.center { text-align: center; }
+.hidden { display: none !important; }
+
+/* ------------------------------------------------------------ glass pieces --- */
+.glass-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 18px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.glass-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 4px 16px rgba(0, 0, 0, 0.2);
+  color: var(--text);
+  font: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s, background 0.2s, box-shadow 0.2s;
+}
+.glass-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.10));
+  transform: translateY(-1px);
+}
+.glass-btn:active { transform: translateY(1px); }
+.glass-btn.small { padding: 6px 12px; }
+.glass-btn.primary { background: linear-gradient(135deg, rgba(167, 139, 250, 0.55), rgba(96, 165, 250, 0.35)); }
+.glass-btn.active {
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.7), rgba(236, 72, 153, 0.4));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 0 18px rgba(167, 139, 250, 0.55);
+}
+
+.glass-input {
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  font: inherit;
+  color-scheme: dark;
+}
+.glass-input::placeholder { color: var(--muted); }
+.glass-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+select.glass-input option { background: var(--bg-1); }
+
+/* ------------------------------------------------------------------ layout --- */
+.top {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 28px 16px 10px;
+  text-align: center;
+}
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: 16px 0 8px;
+}
+main { max-width: 980px; margin: 0 auto; padding: 8px 16px 40px; }
+
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.inline-form { display: flex; gap: 10px; flex-wrap: wrap; }
+.grow { flex: 1; min-width: 180px; }
+
+/* ------------------------------------------------------------- daily tasks --- */
+.task-list { list-style: none; padding: 0; margin: 18px 0 0; }
+.task {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  padding: 14px;
+  margin-bottom: 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.task.done { border-color: rgba(52, 211, 153, 0.6); }
+.task.missed { border-color: rgba(248, 113, 113, 0.6); }
+.task-name { font-weight: 600; align-self: center; }
+.task-actions { display: flex; gap: 6px; }
+.task .remark { grid-column: 1 / -1; width: 100%; }
+.task-extra { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+.mark-btn { width: 42px; height: 38px; padding: 0; font-size: 1.1rem; }
+.mark-btn.done.on { background: rgba(52, 211, 153, 0.6); }
+.mark-btn.missed.on { background: rgba(248, 113, 113, 0.6); }
+.icon-btn { padding: 6px 10px; font-size: 0.85rem; }
+
+.slot-tag {
+  font-size: 0.82rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(245, 158, 11, 0.25);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+}
+.schedule-form { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+.save-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.schedule { list-style: none; padding: 0; margin: 0; }
+.schedule li {
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border-left: 4px solid var(--weekly);
+}
+.schedule li.once { border-left-color: var(--once); }
+.schedule .time { color: var(--muted); margin-right: 8px; font-variant-numeric: tabular-nums; }
+
+/* --------------------------------------------------------------- timetable --- */
+.event-form { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.event-form #event-title { flex: 1; min-width: 180px; }
+.time-label { display: flex; align-items: center; gap: 6px; color: var(--muted); }
+
+.message {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(248, 113, 113, 0.18);
+  border: 1px solid rgba(248, 113, 113, 0.5);
+}
+.message.ok { background: rgba(52, 211, 153, 0.18); border-color: rgba(52, 211, 153, 0.5); }
+.message .glass-btn { margin: 10px 8px 0 0; }
+
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+.day-col {
+  min-height: 140px;
+  padding: 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+.day-col.today { border-color: var(--accent); box-shadow: 0 0 12px rgba(167, 139, 250, 0.4); }
+.day-col h4 { margin: 0 0 8px; font-size: 0.85rem; text-align: center; }
+.day-col h4 small { display: block; color: var(--muted); font-weight: 400; }
+
+.chip {
+  position: relative;
+  padding: 6px 22px 6px 8px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  background: rgba(96, 165, 250, 0.25);
+  border-left: 3px solid var(--weekly);
+  word-break: break-word;
+}
+.chip.once { background: rgba(245, 158, 11, 0.22); border-left-color: var(--once); }
+.chip .time { display: block; color: var(--muted); font-size: 0.72rem; }
+.chip .del {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  border: none;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.chip .del:hover { color: var(--missed); }
+
+.legend { margin-top: 12px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.chip-demo { display: inline-block; width: 14px; height: 14px; border-radius: 4px; }
+.chip-demo.weekly { background: var(--weekly); }
+.chip-demo.once { background: var(--once); margin-left: 10px; }
+
+/* ------------------------------------------------------------ monthly view --- */
+.table-wrap { overflow-x: auto; margin-top: 14px; }
+.month-table { border-collapse: collapse; font-size: 0.85rem; min-width: 100%; }
+.month-table th, .month-table td {
+  padding: 6px 2px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  min-width: 22px;
+}
+.month-table th { color: var(--muted); font-weight: 500; }
+.month-table th.weekend { color: var(--accent); }
+.month-table .name {
+  text-align: left;
+  padding-right: 12px;
+  min-width: 120px;
+  position: sticky;
+  left: 0;
+  background: rgba(27, 20, 64, 0.92);
+}
+.month-table .pct { font-weight: 600; padding-left: 10px; }
+.cell-done { color: var(--done); font-weight: 700; }
+.cell-missed { color: var(--missed); font-weight: 700; }
+.cell-empty { color: var(--muted); }
+.cell-na { color: transparent; }
+
+.ring {
+  --p: 0;
+  width: 150px;
+  height: 150px;
+  margin: 6px auto 14px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(var(--done) calc(var(--p) * 1%), rgba(255, 255, 255, 0.12) 0);
+  position: relative;
+}
+.ring::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border-radius: 50%;
+  background: rgba(20, 22, 60, 0.9);
+}
+.ring span { position: relative; font-size: 2rem; font-weight: 700; }
+.summary { font-size: 1.1rem; margin: 0 0 4px; }
+
+/* ------------------------------------------------------------------- toast --- */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: rgba(20, 22, 60, 0.85);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 10;
+}
+
+/* ------------------------------------------------------------------ phones --- */
+@media (max-width: 720px) {
+  .week-grid { grid-template-columns: 1fr; }
+  .day-col { min-height: 0; }
+  .day-col h4 { text-align: left; }
+  .day-col h4 small { display: inline; margin-left: 6px; }
+  .nav-btn { flex: 1 1 100%; }
+  .task { grid-template-columns: 1fr; }
+  .event-form > *, .time-label .glass-input { flex: 1 1 100%; }
+}

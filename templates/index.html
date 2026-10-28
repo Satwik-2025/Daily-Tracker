@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <header class="top">
+    <h1>Daily Tracker</h1>
+    <nav class="nav">
+      <a href="#daily" class="glass-btn nav-btn" data-page="daily">✅ Daily Tasks</a>
+      <a href="#timetable" class="glass-btn nav-btn" data-page="timetable">🗓️ Timetable</a>
+      <a href="#monthly" class="glass-btn nav-btn" data-page="monthly">📊 Monthly View</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ============================== DAILY TASKS ============================== -->
+    <section id="page-daily" class="page">
+      <div class="glass-card">
+        <div class="row-between">
+          <button class="glass-btn small" id="day-prev" title="Previous day">◀</button>
+          <div class="center">
+            <h2 id="day-title">Today</h2>
+            <input type="date" id="day-picker" class="glass-input">
+          </div>
+          <button class="glass-btn small" id="day-next" title="Next day">▶</button>
+        </div>
+        <p class="muted center" id="day-summary"></p>
+      </div>
+
+      <div class="glass-card">
+        <form id="add-task-form" class="inline-form">
+          <input type="text" id="new-task-name" class="glass-input grow"
+                 placeholder="Add a daily task, e.g. Wake up at 7 AM" maxlength="80">
+          <button type="submit" class="glass-btn primary">+ Add task</button>
+        </form>
+
+        <ul id="task-list" class="task-list"></ul>
+        <p id="no-tasks" class="muted center hidden">No tasks yet — add your first one above.</p>
+
+        <div class="save-bar">
+          <span id="save-status" class="muted">Changes save automatically</span>
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <h3>Schedule for this day</h3>
+        <ul id="day-schedule" class="schedule"></ul>
+      </div>
+    </section>
+
+    <!-- =============================== TIMETABLE =============================== -->
+    <section id="page-timetable" class="page hidden">
+      <div class="glass-card">
+        <h3>Add to timetable</h3>
+        <form id="event-form" class="event-form">
+          <input type="text" id="event-title" class="glass-input" placeholder="e.g. Maths class" maxlength="80" required>
+          <select id="event-repeat" class="glass-input">
+            <option value="weekly">Every week on…</option>
+            <option value="once">Only on one date…</option>
+          </select>
+          <select id="event-weekday" class="glass-input">
+            <option value="0">Monday</option><option value="1">Tuesday</option>
+            <option value="2">Wednesday</option><option value="3">Thursday</option>
+            <option value="4">Friday</option><option value="5">Saturday</option>
+            <option value="6">Sunday</option>
+          </select>
+          <input type="date" id="event-date" class="glass-input hidden">
+          <label class="time-label">From <input type="time" id="event-start" class="glass-input" required></label>
+          <label class="time-label">To <input type="time" id="event-end" class="glass-input" required></label>
+          <button type="submit" class="glass-btn primary">+ Add</button>
+        </form>
+        <div id="event-message" class="message hidden"></div>
+      </div>
+
+      <div class="glass-card">
+        <div class="row-between">
+          <button class="glass-btn small" id="week-prev" title="Previous week">◀</button>
+          <h2 id="week-title"></h2>
+          <button class="glass-btn small" id="week-next" title="Next week">▶</button>
+        </div>
+        <div id="week-grid" class="week-grid"></div>
+        <p class="muted legend"><span class="chip-demo weekly"></span> repeats every week
+          <span class="chip-demo once"></span> just that day</p>
+      </div>
+    </section>
+
+    <!-- ============================== MONTHLY VIEW ============================= -->
+    <section id="page-monthly" class="page hidden">
+      <div class="glass-card">
+        <div class="row-between">
+          <button class="glass-btn small" id="month-prev" title="Previous month">◀</button>
+          <h2 id="month-title"></h2>
+          <button class="glass-btn small" id="month-next" title="Next month">▶</button>
+        </div>
+        <div class="table-wrap">
+          <table id="month-table" class="month-table"></table>
+        </div>
+        <p id="no-month-data" class="muted center hidden">Nothing tracked in this month.</p>
+      </div>
+
+      <div class="glass-card center">
+        <div class="ring" id="month-ring"><span id="month-percent">–</span></div>
+        <p id="month-summary" class="summary"></p>
+        <p id="month-unlogged" class="muted"></p>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
